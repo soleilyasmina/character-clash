@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { baseURL, config } from "../services";
 
 function Character(props) {
@@ -24,6 +25,9 @@ function Character(props) {
       <h3>{game}</h3>
       <h4>{rating}/10</h4>
       <button onClick={removeCharacter}>REMOVE CHARACTER</button>
+      <Link to={`/edit/${props.character.id}`}>
+        <button>EDIT CHARACTER</button>
+      </Link>
     </div>
   )
 }

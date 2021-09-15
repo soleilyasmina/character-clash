@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import { baseURL, config } from "../services";
 
 function Form(props) {
   const [name, setName] = useState("");
   const [game, setGame] = useState("");
   const [rating, setRating] = useState(1);
+  const params = useParams();
 
-  const createCharacter = async (e) => {
+  useEffect(() => {
+    // if there's an id param
+    if (params.id) {
+      // find the character where their id matches the params' id property
+      const character = props.characters.find((character) => character.id === params.id);
+      // if that character exists (i.e. is not undefined)
+      if (character) {
+        // set each of our states to their fields (name to the character's name, etc.)
+        setName(character.fields.name);
+        setGame(character.fields.game);
+        setRating(character.fields.rating);
+      }
+    }
+  }, [params.id, props.characters]);
+  // we'll figure out the dependencies as we go
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // create a new object called newCharacter (holding all our data from state)
     const newCharacter = {
@@ -16,13 +34,18 @@ function Form(props) {
       rating,
     }
     // make a POST request to our endpoint (same as GET), pass our newCharacter as the data, and pass our config to allow ourselves entry into the database
-    await axios.post(baseURL, { fields: newCharacter }, config);
+    if (params.id) {
+      const characterURL = `${baseURL}/${params.id}`;
+      await axios.put(characterURL, { fields: newCharacter }, config);
+    } else {
+      await axios.post(baseURL, { fields: newCharacter }, config);
+    }
     // trigger our useEffect
     props.setToggleFetch((curr) => !curr);
   }
 
   return (
-    <form onSubmit={createCharacter}>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name:</label>
       <input
         id="name"

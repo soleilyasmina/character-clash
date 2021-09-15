@@ -33,10 +33,10 @@ function App() {
         </main>
       </Route>
       <Route path="/new">
-        <Form setToggleFetch={setToggleFetch} />
+        <Form characters={characters}  setToggleFetch={setToggleFetch} />
       </Route>
       <Route path="/edit/:id">
-        <h3>Our edit form goes here!</h3>
+        <Form characters={characters} setToggleFetch={setToggleFetch} />
       </Route>
     </div>
   );
