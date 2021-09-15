@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import { Route } from "react-router-dom";
+import axios from "axios";
+import Nav from "./components/Nav";
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav />
+      <Route exact path="/">
+        <h3>This is the home!</h3>
+      </Route>
+      <Route path="/new">
+        <h3>Our create form goes here!</h3>
+      </Route>
+      <Route path="/edit/:id">
+        <h3>Our edit form goes here!</h3>
+      </Route>
     </div>
   );
 }
