@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import axios from "axios";
 import Nav from "./components/Nav";
@@ -6,15 +6,18 @@ import { baseURL, config } from "./services";
 import './App.css';
 
 function App() {
+  const [characters, setCharacters] = useState([]);
+  const [toggleFetch, setToggleFetch] = useState(false);
+
   useEffect(() => {
     const getCharacters = async () => {
       // make an axios get call to our url, with our config object and save the response
       const response = await axios.get(baseURL, config);
       // console log the response's data
-      console.log(response.data.records);
+      setCharacters(response.data.records);
     }
     getCharacters();
-  }, []);
+  }, [toggleFetch]);
 
   return (
     <div className="App">
