@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import axios from "axios";
+import Character from "./components/Character";
 import Nav from "./components/Nav";
 import { baseURL, config } from "./services";
 import './App.css';
@@ -23,7 +24,12 @@ function App() {
     <div className="App">
       <Nav />
       <Route exact path="/">
-        <h3>This is the home!</h3>
+        <main>
+          {/* map through the characters array and render a p tag for each one with the character's name field as its text content */}
+          {characters.map((character) => (
+            <Character key={character.id} character={character} />
+          ))}
+        </main>
       </Route>
       <Route path="/new">
         <h3>Our create form goes here!</h3>
