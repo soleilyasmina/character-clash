@@ -1,12 +1,28 @@
 import { useState } from "react";
+import axios from "axios";
+import { baseURL, config } from "../services";
 
 function Form(props) {
   const [name, setName] = useState("");
   const [game, setGame] = useState("");
   const [rating, setRating] = useState(1);
 
+  const createCharacter = async (e) => {
+    e.preventDefault();
+    // create a new object called newCharacter (holding all our data from state)
+    const newCharacter = {
+      name,
+      game,
+      rating,
+    }
+    // make a POST request to our endpoint (same as GET), pass our newCharacter as the data, and pass our config to allow ourselves entry into the database
+    await axios.post(baseURL, { fields: newCharacter }, config);
+    // trigger our useEffect
+    props.setToggleFetch((curr) => !curr);
+  }
+
   return (
-    <form>
+    <form onSubmit={createCharacter}>
       <label htmlFor="name">Name:</label>
       <input
         id="name"
